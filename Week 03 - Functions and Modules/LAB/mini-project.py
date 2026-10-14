@@ -12,6 +12,10 @@ Work through the numbered sections in order. Each one tells you what it must do.
 Delete these instructions as you replace them with your code.
 """
 
+"""User type in data (dataset name, rows loaded, rows expected), calculates the
+    difference and percent and prints it in a formatted report. 
+    While loop runs True until user types quit, then kill the program"""
+
 def status_of(percent, over_limit):
     """Determine status and the over limit counter"""
     if percent >= 100:

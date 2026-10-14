@@ -13,7 +13,7 @@ Delete these instructions as you replace them with your code.
 """
 
 over_limit_count = 0        # Create a count for OVER LIMIT
-
+"""While loop runs True until user types quit, then kill the program"""
 while True:        # Starts a while loop
     hostname=input(f"Enter hostname (or type 'quit' to exit): ")    # Enter hostname or type 'quit'
 

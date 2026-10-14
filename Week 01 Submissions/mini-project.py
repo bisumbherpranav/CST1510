@@ -12,6 +12,9 @@ Work through the numbered sections in order. Each one tells you what it must do.
 Delete these instructions as you replace them with your code.
 """
 
+"""User type in data (dataset name, rows loaded, rows expected), calculates the
+     difference and percent and prints it in a formatted report"""
+
 dataset_name = input("Enter the dataset name: ")                # Ask user for the data set name (e.g. covid-19 survery)
 
 rows_loaded = int(input("Enter number of rows loaded: "))       # Ask user for rows of data that was loaded
