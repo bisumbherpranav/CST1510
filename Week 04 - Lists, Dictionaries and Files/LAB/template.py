@@ -2,9 +2,9 @@
 RECORD CHECK  -  my version
 ===========================
 
-Name  :
-Lane  :  AI / Cyber / IT      (delete two)
-Date  :
+Name  :  Pranav Bisumbher
+Lane  :  AI 
+Date  :  17/10/2026
 
 Run it:   python template.py
 
@@ -12,43 +12,64 @@ Work through the numbered sections in order. Each one tells you what it must do.
 Delete these instructions as you replace them with your code.
 """
 
-# =================================================================== FUNCTIONS
-# 1. Bring back check_record(value, limit) and print_report(...) from Week 3
-#    (copy them, or rewrite them - either is fine). check_record returns
-#    difference, percent and status. print_report does all of the printing,
-#    nothing outside it should contain a print() of its own. Give each a
-#    one-line docstring.
+def status_of(percent):
+    """Determine status of percentage"""
+    if percent >= 100:
+        return "OVER LIMIT"
+    elif percent >=90:
+        return "WARNING"
+    else:
+        return "OK"
 
-# your function(s) go here
+def check_record(value,limit):
+    """Calculate and return difference and percentage"""
+    percent = (value/limit)*100
+    difference = value - limit
+    return difference, percent
 
+def print_report(label, value, limit, difference, percent, status):
+    """Print the final formatted  data report"""
+    print()
+    print("=" * 34)
+    print(f"  RECORD CHECK  -  {label}")
+    print("=" * 34)
+    print(f"  Rows Loaded   : {value:>10.2f}")
+    print(f"  Rows Expected : {limit:>10.2f}")
+    print(f"  Difference    : {difference:>10.2f}")
+    print(f"  Percent       : {percent:>10.2f} %")
+    print(f"  Status        : {status:>9}")
+    print("="*34)
 
-# ====================================================================== STORE
-# 2. Get your records into a list of dicts, each shaped like:
-#        {"label": ..., "value": ..., "limit": ...}
-#
-#    Threshold : write the list directly in the code - at least 3 records.
-#    Typical   : instead, write a function load_records(path) that reads
-#                label,value,limit lines from a file and returns the list.
-#                Make your own data file, one record per line.
-#    Excellent : also write the results out to a new file (one line per
-#                record: label, status), as well as printing them.
+def load_records(path):
+    """Reads label, value, limit lines from the file and returns a list of dicts"""
+    records=[]
+    try:
+        with open(path) as f:
+            for line in f:
+                label,value,limit=line.strip().split(',')
+                records.append({'label': label, 'value': float(value), 'limit': float(limit)})
+    except FileNotFoundError:
+        print(f"FILE DOES NOT EXIST: {path}")
+        return []   
+    return records
+records = load_records('my_own_data.txt')
+# records = load_records('not_existing_file.txt')  --> Prints the FileNotFoundError message
+over_limit = 0    # start a count for over-limit
 
-records = []   # replace with your code
+with open('my_own_output.txt','w') as f:
+    """Loop over records -> call check_record() and print_report()"""
+    for row in records:
+        label,value,limit=row['label'],row['value'],row['limit']  # store label,value & limit in their respective variable names so easily accessible
+        difference, percent = check_record(value,limit)  # calls the check_record function 
+        status = status_of(percent) # calls the status_of function
+        if status == "OVER LIMIT":
+            over_limit+=1
+        print_report(label, value, limit, difference, percent, status)  # calls the print_report 
+        f.write(f"{label},{status}\n")      # writes 'label,status'
 
+"""Writes the label,status in a new file call 'my_own_output.txt'"""
+with open('my_own_output.txt') as f:
+    print(f.read())
 
-# =============================================================== PROCESS + OUTPUT
-# 3. Loop over records. For each one, call check_record and print_report.
-#
-#    Excellent : also keep a running count of how many were OVER LIMIT, and
-#                print that once, after the loop ends.
-
-# your loop goes here
-
-
-# ==========================================================================
-# 4. Before you finish:
-#
-#    [ ] Run it and check every record's numbers are correct by hand
-#    [ ] If you are loading from a file, check what happens when the file
-#        does not exist - write the error down
-#    [ ] Check every function still does one job
+"""After reviewing every line, the program is terminated along with this line printed with the 'OVER LIMIT' count"""
+print(f"Session over. Total OVER LIMIT reached: {over_limit} ")

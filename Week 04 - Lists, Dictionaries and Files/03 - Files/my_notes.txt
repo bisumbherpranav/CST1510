@@ -1,0 +1,3 @@
+Learn how to write with 'with'
+Learn how to read a file
+Learn how to read line by line
